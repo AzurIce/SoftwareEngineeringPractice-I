@@ -8,10 +8,11 @@
 #include <QVariant>
 #include <QString>
 #include <QFile>
+#include <utility>
 
 class FileTreeItem {
 public:
-    explicit FileTreeItem() = default;
+    explicit FileTreeItem(QList<QVariant> m_itemData = {"Filename", "Size(Byte)"}): m_itemData(std::move(m_itemData)) {};
 
     explicit FileTreeItem(FileTreeItem *parent) : m_parentItem(parent) {};
 
@@ -25,6 +26,7 @@ public:
 
 
     void appendChild(FileTreeItem *child);
+    void removeChild(FileTreeItem *child);
 
     FileTreeItem *child(int row);
 
@@ -34,6 +36,7 @@ public:
 
     void setFileName(const QString &filename);
 
+    void saveChild(const QString &path);
     void save(const QString &path);
 
     QList<FileTreeItem *> getChilds();
@@ -58,15 +61,18 @@ public:
 
     friend QDataStream &operator>>(QDataStream &stream, FileTreeItem &fileTreeItem);
 
+    bool isDir() const;
+    QString getFilename() const;
+
 private:
-    QList<QVariant> m_itemData = {"Filename", "Size(Byte)"};
+    QList<QVariant> m_itemData;
     FileTreeItem *m_parentItem = nullptr;
 
     // Need to be Serialized
     QList<FileTreeItem *> m_childItems; // Should Serialize the corresponding object but not pointer
     QByteArray m_content;
     QString m_filename;
-    bool m_isDir = false;
+    bool m_isDir = true;
 };
 
 

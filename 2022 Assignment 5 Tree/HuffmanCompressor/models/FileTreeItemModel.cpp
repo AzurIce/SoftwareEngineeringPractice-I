@@ -112,6 +112,12 @@ void FileTreeItemModel::addFile(const QString &path) {
     endInsertRows();
 }
 
+void FileTreeItemModel::deleteAtIndex(QModelIndex index) {
+    beginRemoveRows(index.parent(), index.row(), index.row());
+    static_cast<FileTreeItem *>(index.parent().internalPointer())->removeChild(static_cast<FileTreeItem *>(index.internalPointer()));
+    endRemoveRows();
+}
+
 FileTreeItem *FileTreeItemModel::itemFromIndex(const QModelIndex &index) {
     return static_cast<FileTreeItem *>(index.internalPointer());
 }
@@ -139,4 +145,6 @@ void FileTreeItemModel::setRootItem(FileTreeItem *item) {
     endInsertRows();
 //    rootItem = item;
 }
+
+
 

@@ -51,6 +51,9 @@ public:
 
     void setRootItem(FileTreeItem *item);
 
+    void deleteAtIndex(QModelIndex index);
+
+
 private:
     FileTreeItem *rootItem;
 };

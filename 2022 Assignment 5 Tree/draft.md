@@ -18,23 +18,21 @@ QDataStream
 
 -   [ ] A、改进的压缩算法（要给出与普通Huffman压缩算法的结果对比）；
 
--   [ ] B、仿Winrar界面并完成多个文件压缩到一个文件，压缩功能可以展示压缩前后字节数的对比；
+-   [x] B、仿Winrar界面并完成多个文件压缩到一个文件，压缩功能可以展示压缩前后字节数的对比；
 
--   [ ] C、GUI界面打开一个压缩文件（包含多个被压缩文件），将其中选择的多个文件解压缩;
+-   [x] C、GUI界面打开一个压缩文件（包含多个被压缩文件），将其中选择的多个文件解压缩;
 
 -   [x] D、GUI界面完成目录压缩（压缩到一个文件），自动包含子目录的目录结构及其中文件的压缩；
 
--   [x] E、GUI界面打开一个包含目录的压缩文件，将其中选中目录解压缩，包含子目录的目录结构及其中文件的解压缩；
+-   [ ] E、GUI界面打开一个包含目录的压缩文件，将其中选中目录解压缩，包含子目录的目录结构及其中文件的解压缩；
 
--   [ ] F、GUI界面打开一个包含多个文件的压缩文件，双击可以将选择的文件解压并使用默认程序打开；
+-   [x] F、GUI界面打开一个包含多个文件的压缩文件，双击可以将选择的文件解压并使用默认程序打开；
 
 -   [x] G、压缩和解压缩的动态进度条
 
--   [ ] H、多线程压缩解压缩
+-   [x] H、多线程压缩解压缩
 
 -   [ ] I、其他。
-
-
 
 
 
@@ -67,3 +65,49 @@ QDataStream
 大小
 
 压缩后的内容
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```cpp
+
+
+
+QFile file("./test.txt"); // 文件路径，字符串 or QString
+// QFileInfo fileInfo("./test.txt");
+
+file.open(QIODevice::ReadOnly); // 成功返回 true，失败返回 false
+// QIODevice::ReadOnly
+// QIODevice::WriteOnly
+
+file.write(/*QByteArray类型的*/);
+file.readAll(); // 返回整个文件内容，QByteArray 类型
+
+QByteArray bytes;
+QDataStream s1(&bytes);
+s1 << 1;
+s1 << "130";
+
+
+QDataStream s2(&file);
+s2 << 1;
+
+int x;
+char c;
+QByteArray arr;
+
+s2 >> x >> c >> arr;
+
+```
+

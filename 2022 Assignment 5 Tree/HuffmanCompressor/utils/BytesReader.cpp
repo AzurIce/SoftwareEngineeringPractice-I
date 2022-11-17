@@ -6,15 +6,15 @@
 #include <QDebug>
 
 QByteArray BytesReader::readBytes() {
-    QByteArray bytes;
 
     QFile file(path);
     if (!file.open(QFile::ReadOnly)) {
         current = 0;
-        return bytes;
+        return {};
     }
     QDataStream rs(&file);
 
+    QByteArray bytes;
     total = file.size();
     current = 0;
     char byte;

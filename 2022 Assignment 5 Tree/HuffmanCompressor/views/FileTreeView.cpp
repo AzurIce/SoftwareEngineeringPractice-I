@@ -9,11 +9,22 @@
 FileTreeView::FileTreeView(QWidget *parent) : QTreeView(parent) {
     setAcceptDrops(true);
     setDragDropMode(DragDropMode::DropOnly);
+    setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
+
+    connect(this, &FileTreeView::expanded, this, [=]() {
+        resizeColumnToContents(0);
+    });
+    connect(this, &FileTreeView::collapsed, this, [=]() {
+        resizeColumnToContents(0);
+    });
+    connect(this, &FileTreeView::doubleClicked, this, [=](const QModelIndex &index) {
+        if (!static_cast<FileTreeItem *>(index.internalPointer())->isDir())
+            emit extractAndOpenFile(static_cast<FileTreeItem *>(index.internalPointer()));
+    });
 //    setModel(new QStandardItemModel());
 //    setModel(new CompressedFileItemModel("F:\\Syncthing\\Notes\\Coding\\Rust"));
 //    setModel(new FileTreeItemModel());
 //    expandAll();
-    setColumnWidth(0, 300);
 }
 
 void FileTreeView::addFile(QString &path) {
@@ -43,5 +54,18 @@ void FileTreeView::dropEvent(QDropEvent *event) {
         ((FileTreeItemModel *) this->model())->addFile(file_name);
 //        update();
     }
+    resizeColumnToContents(0);
 //    QAbstractItemView::dropEvent(event);
+}
+
+void FileTreeView::deleteSelected() {
+    for (auto index:QTreeView::selectedIndexes()) {
+        ((FileTreeItemModel *)model())->deleteAtIndex(index);
+    }
+}
+void FileTreeView::saveSelected(const QString &path) {
+    qDebug() << QTreeView::selectedIndexes();
+    for (auto index:QTreeView::selectedIndexes()) {
+        static_cast<FileTreeItem *>(index.internalPointer())->save(path);
+    }
 }

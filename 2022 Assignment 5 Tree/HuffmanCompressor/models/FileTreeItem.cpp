@@ -183,7 +183,7 @@ void FileTreeItem::setFileName(const QString &filename) {
     m_filename = filename;
 }
 
-void FileTreeItem::save(const QString &path) {
+void FileTreeItem::saveChild(const QString &path) {
     for (auto child: m_childItems) {
         if (child->m_isDir) {
             QDir(path).mkdir(child->m_filename);
@@ -192,6 +192,33 @@ void FileTreeItem::save(const QString &path) {
         } else {
             QString target(path);
             Utils::saveBytes(child->m_content, target.append('/').append(child->m_filename));
+        }
+    }
+}
+
+void FileTreeItem::save(const QString &path) {
+    if (m_isDir) {
+        QDir(path).mkdir(m_filename);
+        QString target(path);
+        saveChild(path);
+    } else {
+        QString target(path);
+        Utils::saveBytes(m_content, target.append('/').append(m_filename));
+    }
+}
+
+bool FileTreeItem::isDir() const {
+    return m_isDir;
+}
+QString FileTreeItem::getFilename() const {
+    return m_filename;
+}
+
+void FileTreeItem::removeChild(FileTreeItem *child) {
+    for (int i = 0; i < m_childItems.size(); i++) {
+        if (m_childItems.at(i) == child) {
+            m_childItems.remove(i);
+            return;
         }
     }
 }
