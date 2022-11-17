@@ -14,6 +14,11 @@
 #endif
 
 int main(int argc, char *argv[]) {
+//    freopen("C:\\Users\\xiaob\\Desktop\\test", "w", stdout);
+//    for (int i = 0; i < argc; i++) {
+//        std::cout << argv[i] << ' ';
+//    }
+//    std::cout << std::endl;
 #ifdef DEBUG
 //    bool arr[9];
 //    std::cout << sizeof(arr) << std::endl;
@@ -70,6 +75,7 @@ int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
+    if (argc > 1) w.loadHuffmanZip(argv[1]);
     return QApplication::exec();
 #endif
 }

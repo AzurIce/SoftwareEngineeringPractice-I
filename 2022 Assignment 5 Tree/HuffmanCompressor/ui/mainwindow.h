@@ -20,6 +20,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void loadHuffmanZip(const QString &path);
+
 protected:
     void timerEvent(QTimerEvent *event) override;
 private:

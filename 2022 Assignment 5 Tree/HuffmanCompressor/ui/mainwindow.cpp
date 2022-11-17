@@ -102,6 +102,11 @@ MainWindow::~MainWindow() {
     delete compress;
 }
 
+void MainWindow::loadHuffmanZip(const QString &path) {
+    QThread *t = QThread::create(&MainWindow::open, this, path);
+    t->start();
+}
+
 void MainWindow::log(const QString &str) {
     ui->logTextEdit->append(str);
 }
