@@ -34,9 +34,9 @@ public:
     QAction *actionNew;
     QWidget *centralwidget;
     QGridLayout *gridLayout;
-    QProgressBar *progressBar;
     FileTreeView *treeViewContent;
     QTextEdit *logTextEdit;
+    QProgressBar *progressBar;
     QMenuBar *menubar;
     QMenu *menu;
     QStatusBar *statusbar;
@@ -58,12 +58,6 @@ public:
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         gridLayout = new QGridLayout(centralwidget);
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
-        progressBar = new QProgressBar(centralwidget);
-        progressBar->setObjectName(QString::fromUtf8("progressBar"));
-        progressBar->setValue(0);
-
-        gridLayout->addWidget(progressBar, 1, 0, 1, 2);
-
         treeViewContent = new FileTreeView(centralwidget);
         treeViewContent->setObjectName(QString::fromUtf8("treeViewContent"));
         treeViewContent->setStyleSheet(QString::fromUtf8("QTreeView{\n"
@@ -92,9 +86,33 @@ public:
         logTextEdit->setSizePolicy(sizePolicy);
         logTextEdit->setMaximumSize(QSize(16777215, 16777215));
         logTextEdit->setLayoutDirection(Qt::LeftToRight);
+        logTextEdit->setStyleSheet(QString::fromUtf8("QTextEdit{\n"
+"	border: none;\n"
+"	border-radius: 20px;\n"
+"	padding: 10px;\n"
+"	background-color: #ffffff;\n"
+"}"));
         logTextEdit->setReadOnly(true);
 
         gridLayout->addWidget(logTextEdit, 2, 0, 1, 1);
+
+        progressBar = new QProgressBar(centralwidget);
+        progressBar->setObjectName(QString::fromUtf8("progressBar"));
+        progressBar->setStyleSheet(QString::fromUtf8("QProgressBar{\n"
+"	height:22px;\n"
+"	text-align:center;\n"
+"	font-size:14px;\n"
+"	color:black;\n"
+"	border-radius:11px;\n"
+"	background:#ffffff;\n"
+"}\n"
+"QProgressBar::chunk{\n"
+"	border-radius:11px;\n"
+"	background:qlineargradient(spread:pad,x1:0,y1:0,x2:1,y2:0,stop:0 #99ffff,stop:1 #9900ff);\n"
+"}"));
+        progressBar->setValue(10);
+
+        gridLayout->addWidget(progressBar, 1, 0, 1, 1);
 
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);

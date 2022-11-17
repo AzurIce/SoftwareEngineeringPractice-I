@@ -11,26 +11,6 @@ void MainWindow::timerEvent(QTimerEvent *event) {
     if (event->timerId() == progressTimer) {
         ui->progressBar->setValue(current);
         ui->progressBar->setMaximum(total);
-
-//        if (saver != nullptr && saver->saving) {
-//            ui->progressBar->setValue(saver->current);
-//            ui->progressBar->setMaximum(saver->total);
-//        } else if (reader != nullptr && reader->reading) {
-//            ui->progressBar->setValue(reader->current);
-//            ui->progressBar->setMaximum(reader->total);
-//        } else if (compress != nullptr) {
-//            switch (compress->state) {
-//                case HuffmanCompress::ENCODING:
-//                case HuffmanCompress::COMPRESSING:
-//                case HuffmanCompress::DECOMPRESSING:
-//                    ui->progressBar->setValue(compress->current);
-//                    ui->progressBar->setMaximum(compress->total);
-//                default:
-//                    break;
-//            }
-//        } else if (done) {
-//            ui->progressBar->setValue(ui->progressBar->maximum());
-//        }
     }
 }
 
@@ -54,7 +34,7 @@ void MainWindow::open(const QString &path) {
     item->setFileName(file.fileName());
     model = new FileTreeItemModel(item);
     ui->treeViewContent->setModel(model);
-    logln("加载完成...");
+    logln("加载完成");
 //    ui->progressBar->setValue(ui->progressBar->maximum());
 }
 
@@ -62,7 +42,7 @@ void MainWindow::save(const QString &path) {
     logln("正在压缩...");
     current = 0;
     delete compress;
-    compress = new HuffmanCompress(model->getRootItem()->toBytes());
+    compress = new HuffmanCompress(model->getRootItem()->toBytes(), current, total);
 //        Utils::saveBytes(compress->toBytes(), filename);
     int &&originalSize = compress->getOriginalBytes().size();
     int &&compressedSize = compress->getCompressedBytes().size();
@@ -83,6 +63,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->treeViewContent->setModel(model = new FileTreeItemModel());
 
     connect(ui->actionNew, &QAction::triggered, this, [=]() {
+        current = 0;
         ui->treeViewContent->setModel(model = new FileTreeItemModel());
     });
 
