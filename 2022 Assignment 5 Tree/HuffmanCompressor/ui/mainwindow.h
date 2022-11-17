@@ -4,6 +4,9 @@
 #include <QMainWindow>
 #include "models/FileTreeItemModel.h"
 #include "libs/HuffmanCompress.h"
+#include "utils/BytesSaver.h"
+#include "utils/BytesReader.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,11 +23,23 @@ public:
 protected:
     void timerEvent(QTimerEvent *event) override;
 private:
+    std::atomic<int> current;
+    std::atomic<int> total;
+
     Ui::MainWindow *ui;
     FileTreeItemModel *model;
-    HuffmanCompress *compress;
+    HuffmanCompress *compress = nullptr;
+    BytesSaver *saver = nullptr;
+    BytesReader *reader = nullptr;
+
+    void log(const QString &str);
+    void logln(const QString &str);
+
+    void save(const QString &path);
+    void open(const QString &path);
+
 //    QProgressDialog *progress;
 
-    int timer;
+    int progressTimer;
 };
 #endif // MAINWINDOW_H

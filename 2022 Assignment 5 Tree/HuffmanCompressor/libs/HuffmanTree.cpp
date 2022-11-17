@@ -25,7 +25,7 @@ void HuffmanTree::init(const QMap<char, unsigned int> &byteHist) {
         delete root;
         root = nullptr;
     }
-    m_byteHist = byteHist;
+//    m_byteHist = byteHist;
     std::vector<HuffmanTreeNode *> nodes;
     for (auto it = byteHist.begin(); it != byteHist.end(); it++) {
         nodes.push_back(new HuffmanTreeNode(it.key(), it.value()));
@@ -61,8 +61,16 @@ void HuffmanTree::init(const QMap<char, unsigned int> &byteHist) {
     }
 }
 
-void HuffmanTree::getEncodingTable(HuffmanTreeNode *node, QMap<char, std::vector<bool>> &encodingTable,
-                                   std::vector<bool> &code) {
+
+QMap<char, std::vector<bool>> HuffmanTree::getEncodingTable() {
+    std::vector<bool> code;
+    QMap<char, std::vector<bool>> encodingTable;
+    getEncodingTable(root, encodingTable, code);
+    return encodingTable;
+}
+
+void HuffmanTree::getEncodingTable(HuffmanTreeNode *node,
+                                   QMap<char, std::vector<bool>> &encodingTable, std::vector<bool> &code) {
     if (node->lchild == nullptr && node->rchild == nullptr) {
         encodingTable[node->x] = code;
         return;
@@ -79,78 +87,10 @@ void HuffmanTree::getEncodingTable(HuffmanTreeNode *node, QMap<char, std::vector
     }
 }
 
-void HuffmanTree::getDecodingTable(HuffmanTreeNode *node, QMap<std::vector<bool>, char> &decodingTable,
-                                   std::vector<bool> &code) {
-    if (node->lchild == nullptr && node->rchild == nullptr) {
-        decodingTable[code] = node->x;
-        return;
-    }
-    if (node->lchild != nullptr) {
-        code.push_back(0);
-        getDecodingTable(node->lchild, decodingTable, code);
-        code.pop_back();
-    }
-    if (node->rchild != nullptr) {
-        code.push_back(1);
-        getDecodingTable(node->rchild, decodingTable, code);
-        code.pop_back();
-    }
-}
-
-QByteArray HuffmanTree::encode(const QByteArray &bytes) {
-    std::vector<bool> code;
-    QMap<char, std::vector<bool>> encodingTable;
-    getEncodingTable(root, encodingTable, code);
-
-    total = bytes.size();
-    current = 0;
-//    progress->setMaximum(total);
-
-    std::vector<bool> bits;
-    for (int i = 0; i < bytes.size(); i++) {
-        char &&byte = bytes.at(i);
-        bits.insert(bits.end(), encodingTable[byte].begin(), encodingTable[byte].end());
-        current = i;
-//        progress->setValue(current);
-    }
-    current = total;
-//    progress->setValue(total);
-
-    return Utils::bits2Bytes(bits);
-}
-
-QByteArray HuffmanTree::decode(const QByteArray &encodedBytes, int size) {
-    std::vector<bool> encodedBits = Utils::bytes2Bits(encodedBytes);
-    total = size;
-    current = 0;
-//    progress->setMaximum(total);
-//    qDebug() << "decode total:" << total;
-
-    QByteArray decodedBytes;
-    auto cur = root;
-
-    for (bool bit : encodedBits) {
-//        qDebug("%d", bit);
-        if (!bit && cur->lchild == nullptr || bit && cur->rchild == nullptr) {
-            decodedBytes.push_back(cur->x);
-            cur = root;
-            current = decodedBytes.size();
-//            progress->setValue(current);
-//            qDebug() << "decoded:" << current;
-            if (current == size) break;
-        }
-        if (!bit) cur = cur->lchild;
-        else cur = cur->rchild;
-    }
-    current = total;
-//    progress->setValue(total);
-    return decodedBytes;
-}
-
 std::ostream &operator<<(std::ostream &os, const HuffmanTreeNode &o) {
     os << (int) o.x << "(" << o.w << ")" << std::endl;
-    if (o.lchild != nullptr) os << o.x << "(" << o.w << ") - l:" << *o.lchild;
-    if (o.rchild != nullptr) os << o.x << "(" << o.w << ") - r:" << *o.rchild;
+    if (o.lchild != nullptr) os << (int)o.x << "(" << o.w << ") - l:" << *o.lchild;
+    if (o.rchild != nullptr) os << (int)o.x << "(" << o.w << ") - r:" << *o.rchild;
     return os;
 }
 
@@ -169,7 +109,6 @@ QDataStream &operator>>(QDataStream &stream, HuffmanTree &tree) {
     QByteArray bytes;
     stream >> bytes;
     tree.root = HuffmanTreeNode::fromBits(Utils::bytes2Bits(bytes));
-
     return stream;
 }
 

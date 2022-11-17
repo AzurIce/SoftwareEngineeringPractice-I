@@ -10,37 +10,37 @@
 #include <QMap>
 #include "HuffmanTree.h"
 #include <QProgressDialog>
+#include <atomic>
 
 class HuffmanCompress{
 public:
     enum State {
-        INITIALIZED, COMPRESSING, DECOMPRESSING, DONE
+        INIT, ENCODING, COMPRESSING, DECOMPRESSING, DONE
     };
-    State state;
 
     ////// Constructors and destructors //////
-    HuffmanCompress(): m_size(0), state(INITIALIZED){};
-    explicit HuffmanCompress(const QByteArray &bytes);
+    explicit HuffmanCompress(std::atomic<int> &current, std::atomic<int> &total): current(current), total(total) {};
+    explicit HuffmanCompress(const QByteArray &bytes, std::atomic<int> &current, std::atomic<int> &total);
     ~HuffmanCompress();
 
     ////// Serializing and Deserializing //////
-    [[nodiscard]] QByteArray toBytes() const;
-    static HuffmanCompress *fromBytes(QByteArray *bytes);
-
-    friend QDataStream &operator<<(QDataStream &stream, const HuffmanCompress &huffmanCompress);
-    friend QDataStream &operator>>(QDataStream &stream, HuffmanCompress &huffmanCompress);
+    QByteArray toBytes();
+    static HuffmanCompress *fromBytes(QByteArray *bytes, std::atomic<int> &current, std::atomic<int> &total);
 
     ////// Getters //////
-    int getOriginalSize();
-    int getTotal();
-    int getCurrent();
+    std::atomic<int> &current;
+    std::atomic<int> &total;
+    std::atomic<State> state = INIT;
+
     QByteArray getOriginalBytes();
     QByteArray getCompressedBytes();
 private:
+    void encode();
+    void decode();
+    int m_size = 0;                     // Serialized
     HuffmanTree m_huffmanTree;          // Serialized(See HuffmanTree)
-    unsigned long long m_size;          // Serialized
-    QByteArray m_original_data_bytes;
-    QByteArray m_compressed_data_bytes; // Serialized
+    QByteArray *m_original_data_bytes = nullptr;
+    QByteArray *m_compressed_data_bytes = nullptr; // Serialized
 };
 
 

@@ -85,14 +85,16 @@ public:
 
         logTextEdit = new QTextEdit(centralwidget);
         logTextEdit->setObjectName(QString::fromUtf8("logTextEdit"));
-        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
+        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(logTextEdit->sizePolicy().hasHeightForWidth());
         logTextEdit->setSizePolicy(sizePolicy);
+        logTextEdit->setMaximumSize(QSize(16777215, 16777215));
+        logTextEdit->setLayoutDirection(Qt::LeftToRight);
         logTextEdit->setReadOnly(true);
 
-        gridLayout->addWidget(logTextEdit, 0, 1, 1, 1);
+        gridLayout->addWidget(logTextEdit, 2, 0, 1, 1);
 
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);

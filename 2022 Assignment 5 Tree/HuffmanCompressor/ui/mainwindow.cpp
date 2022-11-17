@@ -4,99 +4,115 @@
 #include "./ui_mainwindow.h"
 #include "libs/HuffmanCompress.h"
 #include "utils/Utils.h"
+#include "utils/BytesReader.h"
 #include <QProgressDialog>
 
 void MainWindow::timerEvent(QTimerEvent *event) {
-    if(event->timerId() == timer) {
-        if (compress != nullptr) {
-            if (compress->state == HuffmanCompress::COMPRESSING) {
-//                progress->setLabelText("正在保存");
-//                progress->setValue(compress->getCurrent());
-//                progress->setMaximum(compress->getTotal());
-                ui->actionCompress_to->setDisabled(true);
-                ui->actionDecompress_to->setDisabled(false);
-            } else if (compress->state == HuffmanCompress::DECOMPRESSING) {
-//                progress->setLabelText("正在打开");
-//                progress->setValue(compress->getCurrent());
-//                progress->setMaximum(compress->getTotal());
-                ui->actionCompress_to->setDisabled(false);
-                ui->actionDecompress_to->setDisabled(true);
-            } else {
-//                progress->setValue(progress->maximum());
-                ui->actionCompress_to->setDisabled(false);
-                ui->actionDecompress_to->setDisabled(false);
-            }
-            ui->progressBar->setMaximum(compress->getTotal());
-            ui->progressBar->setValue(compress->getCurrent());
-        }
+    if (event->timerId() == progressTimer) {
+        ui->progressBar->setValue(current);
+        ui->progressBar->setMaximum(total);
+
+//        if (saver != nullptr && saver->saving) {
+//            ui->progressBar->setValue(saver->current);
+//            ui->progressBar->setMaximum(saver->total);
+//        } else if (reader != nullptr && reader->reading) {
+//            ui->progressBar->setValue(reader->current);
+//            ui->progressBar->setMaximum(reader->total);
+//        } else if (compress != nullptr) {
+//            switch (compress->state) {
+//                case HuffmanCompress::ENCODING:
+//                case HuffmanCompress::COMPRESSING:
+//                case HuffmanCompress::DECOMPRESSING:
+//                    ui->progressBar->setValue(compress->current);
+//                    ui->progressBar->setMaximum(compress->total);
+//                default:
+//                    break;
+//            }
+//        } else if (done) {
+//            ui->progressBar->setValue(ui->progressBar->maximum());
+//        }
     }
 }
 
-MainWindow::MainWindow(QWidget *parent)
-        : QMainWindow(parent), ui(new Ui::MainWindow), compress(nullptr) {
-    ui->setupUi(this);
-    model = new FileTreeItemModel();
-//    progress = new QProgressDialog(this);
-//    progress->setWindowModality(Qt::WindowModal);
-//    progress->close();
+void MainWindow::open(const QString &path) {
+    logln("正在读取文件...");
+//    QByteArray bytes = Utils::readBytes(path);
+    delete reader;
+    reader = new BytesReader(path, current, total);
+    auto bytes = reader->read();
+    delete reader; reader = nullptr;
 
+    logln("正在解码...");
+    delete compress;
+    compress = HuffmanCompress::fromBytes(&bytes, current, total);
+    QByteArray originalBytes = compress->getOriginalBytes();
+
+    logln("正在加载...");
+    FileTreeItem *item = FileTreeItem::fromBytes(&originalBytes);
+
+    QFileInfo file(path);
+    item->setFileName(file.fileName());
+    model = new FileTreeItemModel(item);
     ui->treeViewContent->setModel(model);
+    logln("加载完成...");
+//    ui->progressBar->setValue(ui->progressBar->maximum());
+}
+
+void MainWindow::save(const QString &path) {
+    logln("正在压缩...");
+    current = 0;
+    delete compress;
+    compress = new HuffmanCompress(model->getRootItem()->toBytes());
+//        Utils::saveBytes(compress->toBytes(), filename);
+    int &&originalSize = compress->getOriginalBytes().size();
+    int &&compressedSize = compress->getCompressedBytes().size();
+    logln("原大小：" + QString::number(originalSize) + "Bytes");
+    logln("压缩后大小：" + QString::number(compressedSize) + "Bytes");
+    logln("减小了：" + QString::number((1.0 - (double)compressedSize/originalSize) * 100) + "%");
+
+    logln("正在保存文件...");
+    delete saver;
+    saver = new BytesSaver(compress->toBytes(), path, current, total);
+    saver->save();
+    logln("文件保存完成");
+//    ui->progressBar->setValue(ui->progressBar->maximum());
+}
+
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
+    ui->setupUi(this);
+    ui->treeViewContent->setModel(model = new FileTreeItemModel());
 
     connect(ui->actionNew, &QAction::triggered, this, [=]() {
-        delete compress;
-        compress = nullptr;
-        model = new FileTreeItemModel();
-        ui->treeViewContent->setModel(model);
+        ui->treeViewContent->setModel(model = new FileTreeItemModel());
     });
 
     connect(ui->actionCompress_to, &QAction::triggered, this, [=]() {
         QString filename = QFileDialog::getSaveFileName(this, " 保存 ", "./archive.huffmanzip", "*.huffmanzip");
         if (filename == nullptr) return;
+        logln(QString("正在保存到 ") + filename + "...");
 
-//        progress->setLabelText("正在打开");
-//        progress->setWindowModality(Qt::WindowModal);
-//        progress->setValue(0);
-//        progress.show();
-        delete compress;
-        compress = new HuffmanCompress(model->getRootItem()->toBytes());
-        ui->progressBar->setMaximum(compress->getOriginalSize());
-        Utils::saveBytes(compress->toBytes(), filename);
+        QThread *t = QThread::create(&MainWindow::save, this, filename);
+        t->start();
     });
 
     connect(ui->actionOpen, &QAction::triggered, this, [=]() {
         QString filename = QFileDialog::getOpenFileName(this, " 打开 ", "./", "*.huffmanzip");
         if (filename == nullptr) return;
+        logln(QString("正在打开 ") + filename + "...");
 
-        QByteArray bytes = Utils::readBytes(filename);
-
-//        progress->setLabelText("正在打开");
-//        progress->setWindowModality(Qt::WindowModal);
-//        progress->setValue(0);
-//        progress.show();
-        delete compress;
-        compress = HuffmanCompress::fromBytes(&bytes);
-        ui->progressBar->setMaximum(compress->getOriginalSize());
-        qDebug() << "decoded";
-
-        QByteArray originalBytes = compress->getOriginalBytes();
-        FileTreeItem *item = FileTreeItem::fromBytes(&originalBytes);
-
-        QFileInfo file(filename);
-        item->setFileName(file.fileName());
-        model = new FileTreeItemModel(item);
-        ui->treeViewContent->setModel(model);
+        QThread *t = QThread::create(&MainWindow::open, this, filename);
+        t->start();
     });
 
     connect(ui->actionDecompress_to, &QAction::triggered, this, [=]() {
         QString dir = QFileDialog::getExistingDirectory(this, " 解压到 ", "./",
                                                         QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
-        FileTreeItem *item = model->getRootItem();
+        logln(QString("正在解压到 ") + dir + "...");
 
-        item->save(dir);
+        model->getRootItem()->save(dir);
     });
 
-    timer = startTimer(200);
-
+    progressTimer = startTimer(50);
 }
 
 MainWindow::~MainWindow() {
@@ -105,3 +121,10 @@ MainWindow::~MainWindow() {
     delete compress;
 }
 
+void MainWindow::log(const QString &str) {
+    ui->logTextEdit->append(str);
+}
+
+void MainWindow::logln(const QString &str) {
+    log(str);
+}

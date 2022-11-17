@@ -19,7 +19,7 @@ set(PROJECT_SOURCES
         ui/mainwindow.cpp
         ui/mainwindow.ui
         ui/mainwindow.h
-        views/FileTreeView.cpp views/FileTreeView.h models/FileTreeItemModel.cpp models/FileTreeItemModel.h models/FileTreeItem.cpp models/FileTreeItem.h utils/Utils.cpp utils/Utils.h libs/HuffmanCompress.cpp libs/HuffmanCompress.h libs/HuffmanTree.cpp libs/HuffmanTree.h)
+        views/FileTreeView.cpp views/FileTreeView.h models/FileTreeItemModel.cpp models/FileTreeItemModel.h models/FileTreeItem.cpp models/FileTreeItem.h utils/Utils.cpp utils/Utils.h libs/HuffmanCompress.cpp libs/HuffmanCompress.h libs/HuffmanTree.cpp libs/HuffmanTree.h utils/BytesSaver.cpp utils/BytesSaver.h utils/BytesReader.cpp utils/BytesReader.h)
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(HuffmanCompressor_Qt

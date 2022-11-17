@@ -31,19 +31,12 @@ private:
 class HuffmanTree {
 public:
     ////// Constructors and Destructors //////
-    HuffmanTree(): root(nullptr) {};
     ~HuffmanTree();
 
     void init(const QMap<char, unsigned int> &byteHist);
 
     ////// Encoding and Decoding //////
-    void getEncodingTable(HuffmanTreeNode * node, QMap<char, std::vector<bool>> &encodingTable, std::vector<bool> &code);
-
-    void getDecodingTable(HuffmanTreeNode * node, QMap<std::vector<bool>, char> &decodingTable, std::vector<bool> &code);
-
-    QByteArray encode(const QByteArray& bytes);
-
-    QByteArray decode(const QByteArray& bytes, int size);
+    QMap<char, std::vector<bool>> getEncodingTable();
 
     ////// Printing //////
     friend std::ostream &operator<<(std::ostream &os, const HuffmanTree &t);
@@ -52,11 +45,9 @@ public:
     friend QDataStream &operator>>(QDataStream &stream, HuffmanTree &tree);
     friend QDataStream &operator<<(QDataStream &stream, const HuffmanTree &tree);
 
-    int current{};
-    int total{};
+    HuffmanTreeNode *root = nullptr;
 private:
-    QMap<char, unsigned int> m_byteHist;
-    HuffmanTreeNode *root;
+    void getEncodingTable(HuffmanTreeNode * node, QMap<char, std::vector<bool>> &encodingTable, std::vector<bool> &code);
 };
 
 #endif //HUFFMANCOMPRESSOR_QT_HUFFMANTREE_H

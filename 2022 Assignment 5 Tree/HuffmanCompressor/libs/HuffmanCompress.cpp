@@ -9,17 +9,17 @@
 
 ////// Constructors and destructors //////
 // Construct from original data bytes
-HuffmanCompress::HuffmanCompress(const QByteArray &bytes) : state(INITIALIZED) {
-    m_original_data_bytes = bytes;
+HuffmanCompress::HuffmanCompress(const QByteArray &bytes, std::atomic<int> &current, std::atomic<int> &total): current(current), total(total) {
+    m_original_data_bytes = new QByteArray(bytes);
     m_size = bytes.size();
 
-    state = COMPRESSING;
+    state = ENCODING;
     m_huffmanTree.init(Utils::getBytesHist(bytes));
-    m_compressed_data_bytes = m_huffmanTree.encode(m_original_data_bytes);
     state = DONE;
 }
 
 HuffmanCompress::~HuffmanCompress() {
+    delete m_original_data_bytes;
 }
 
 ////// Serializing and Deserializing //////
@@ -28,55 +28,77 @@ HuffmanCompress::~HuffmanCompress() {
  */
 
 // Serialize
-QDataStream &operator<<(QDataStream &stream, const HuffmanCompress &huffmanCompress) {
-    stream << huffmanCompress.m_huffmanTree
-           << huffmanCompress.m_size
-           << huffmanCompress.m_compressed_data_bytes;
-    return stream;
-}
-
-QByteArray HuffmanCompress::toBytes() const {
+QByteArray HuffmanCompress::toBytes() {
     QByteArray bytes;
-    QDataStream ds(&bytes, QIODevice::ReadWrite); // 这里也可以跟 QFile关联
-    ds << *this;
+    QDataStream s(&bytes, QIODevice::ReadWrite); // 这里也可以跟 QFile关联
+
+    s << m_huffmanTree
+      << m_size
+      << getCompressedBytes();
     return bytes;
 }
+// Deserialize
+HuffmanCompress *HuffmanCompress::fromBytes(QByteArray *bytes, std::atomic<int> &current, std::atomic<int> &total) {
+    auto *compress = new HuffmanCompress(current, total);
 
-// DeSerialize
-QDataStream &operator>>(QDataStream &stream, HuffmanCompress &compress) {
-    stream >> compress.m_huffmanTree
-           >> compress.m_size
-           >> compress.m_compressed_data_bytes;
+    compress->m_compressed_data_bytes = new QByteArray();
 
+    QDataStream s(bytes, QIODevice::ReadOnly);
+    s >> compress->m_huffmanTree
+      >> compress->m_size
+      >> *compress->m_compressed_data_bytes;
 
-    return stream;
+    return compress;
 }
 
-HuffmanCompress *HuffmanCompress::fromBytes(QByteArray *bytes) {
-    auto *compress = new HuffmanCompress();
-    QDataStream rds(bytes, QIODevice::ReadOnly);
-    rds >> *compress;
-    compress->m_original_data_bytes = compress->m_huffmanTree.decode(compress->m_compressed_data_bytes, compress->m_size);
-    return compress;
+void HuffmanCompress::encode() {
+    m_compressed_data_bytes = new QByteArray();
+    state = COMPRESSING;
+    auto encodingTable = m_huffmanTree.getEncodingTable();
+
+    total = m_size;
+    std::vector<bool> bits;
+    for (int i = 0; i < m_original_data_bytes->size(); i++) {
+        char &&byte = m_original_data_bytes->at(i);
+        bits.insert(bits.end(), encodingTable[byte].begin(), encodingTable[byte].end());
+        current = i + 1;
+    }
+    current = m_size;
+
+    *m_compressed_data_bytes = Utils::bits2Bytes(bits);
+    state = DONE;
+}
+
+void HuffmanCompress::decode() {
+    m_original_data_bytes = new QByteArray();
+    state = DECOMPRESSING;
+    std::vector<bool> encodedBits = Utils::bytes2Bits(*m_compressed_data_bytes);
+    total = m_size;
+
+    auto cur = m_huffmanTree.root;
+    for (bool bit: encodedBits) {
+        if (cur->lchild == nullptr) { // 叶子节点
+            m_original_data_bytes->push_back(cur->x);
+            cur = m_huffmanTree.root;
+            current = m_original_data_bytes->size();
+            if (current == m_size) break;
+        }
+        if (!bit) cur = cur->lchild;
+        else cur = cur->rchild;
+    }
+//    qDebug() << *m_original_data_bytes;
+    current = m_size;
+    state = DONE;
 }
 
 ////// Getters //////
 QByteArray HuffmanCompress::getOriginalBytes() {
-    return m_original_data_bytes;
+    if (m_original_data_bytes == nullptr) decode();
+    return *m_original_data_bytes;
 }
+
 QByteArray HuffmanCompress::getCompressedBytes() {
-    return m_compressed_data_bytes;
-}
-
-int HuffmanCompress::getOriginalSize() {
-    return m_size;
-}
-
-int HuffmanCompress::getTotal() {
-    return m_huffmanTree.total;
-}
-
-int HuffmanCompress::getCurrent() {
-    return m_huffmanTree.current;
+    if (m_compressed_data_bytes == nullptr) encode();
+    return *m_compressed_data_bytes;
 }
 
