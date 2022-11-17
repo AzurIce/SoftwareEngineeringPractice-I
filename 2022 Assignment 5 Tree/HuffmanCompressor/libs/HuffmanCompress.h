@@ -12,19 +12,22 @@
 #include <QProgressDialog>
 #include <atomic>
 
-class HuffmanCompress{
+class HuffmanCompress {
 public:
     enum State {
         INIT, ENCODING, COMPRESSING, DECOMPRESSING, DONE
     };
 
     ////// Constructors and destructors //////
-    explicit HuffmanCompress(std::atomic<int> &current, std::atomic<int> &total): current(current), total(total) {};
+    explicit HuffmanCompress(std::atomic<int> &current, std::atomic<int> &total) : current(current), total(total) {};
+
     explicit HuffmanCompress(const QByteArray &bytes, std::atomic<int> &current, std::atomic<int> &total);
+
     ~HuffmanCompress();
 
     ////// Serializing and Deserializing //////
     QByteArray toBytes();
+
     static HuffmanCompress *fromBytes(QByteArray *bytes, std::atomic<int> &current, std::atomic<int> &total);
 
     ////// Getters //////
@@ -33,10 +36,14 @@ public:
     std::atomic<State> state = INIT;
 
     QByteArray getOriginalBytes();
+
     QByteArray getCompressedBytes();
+
 private:
     void encode();
+
     void decode();
+
     int m_size = 0;                     // Serialized
     HuffmanTree m_huffmanTree;          // Serialized(See HuffmanTree)
     QByteArray *m_original_data_bytes = nullptr;

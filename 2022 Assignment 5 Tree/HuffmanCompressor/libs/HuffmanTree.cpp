@@ -89,8 +89,8 @@ void HuffmanTree::getEncodingTable(HuffmanTreeNode *node,
 
 std::ostream &operator<<(std::ostream &os, const HuffmanTreeNode &o) {
     os << (int) o.x << "(" << o.w << ")" << std::endl;
-    if (o.lchild != nullptr) os << (int)o.x << "(" << o.w << ") - l:" << *o.lchild;
-    if (o.rchild != nullptr) os << (int)o.x << "(" << o.w << ") - r:" << *o.rchild;
+    if (o.lchild != nullptr) os << (int) o.x << "(" << o.w << ") - l:" << *o.lchild;
+    if (o.rchild != nullptr) os << (int) o.x << "(" << o.w << ") - r:" << *o.rchild;
     return os;
 }
 
@@ -147,7 +147,7 @@ HuffmanTreeNode *HuffmanTreeNode::fromBits(const std::vector<bool> &bits, int &i
         for (int i = 0; i < 8 && index + i < bits.size(); i++, index++) {
             c = c << 1 | bits[index];
         }
-        node->x = (char)c;
+        node->x = (char) c;
     } else {
         if (bits[index++]) {
             node->lchild = fromBits(bits, index);

@@ -179,11 +179,11 @@ void FileTreeItem::setData() {
     setData({"Filename", "Size(Byte)"});
 }
 
-void FileTreeItem::setFileName(const QString &filename){
+void FileTreeItem::setFileName(const QString &filename) {
     m_filename = filename;
 }
 
-void FileTreeItem::save(const QString& path) {
+void FileTreeItem::save(const QString &path) {
     for (auto child: m_childItems) {
         if (child->m_isDir) {
             QDir(path).mkdir(child->m_filename);

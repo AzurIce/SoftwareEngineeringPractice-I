@@ -17,7 +17,6 @@ public:
     BytesSaver(const QByteArray &bytes, const QString &path, std::atomic<int> &current, std::atomic<int> &total) :
             bytes(bytes), path(path), current(current), total(total) {};
 
-//    std::atomic<bool> &saving;
     std::atomic<int> &current;
     std::atomic<int> &total;
 

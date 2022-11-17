@@ -25,8 +25,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class Ui_MainWindow
-{
+class Ui_MainWindow {
 public:
     QAction *actionOpen;
     QAction *actionCompress_to;
@@ -41,8 +40,7 @@ public:
     QMenu *menu;
     QStatusBar *statusbar;
 
-    void setupUi(QMainWindow *MainWindow)
-    {
+    void setupUi(QMainWindow *MainWindow) {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
         MainWindow->resize(800, 600);
@@ -61,17 +59,17 @@ public:
         treeViewContent = new FileTreeView(centralwidget);
         treeViewContent->setObjectName(QString::fromUtf8("treeViewContent"));
         treeViewContent->setStyleSheet(QString::fromUtf8("QTreeView{\n"
-"	border: none;\n"
-"	border-radius: 20px;\n"
-"	padding: 10px;\n"
-"	background-color: #ffffff;\n"
-"}\n"
-"\n"
-"QHeaderView::section{\n"
-"	background-color: #ffffff;\n"
-"	border: none;\n"
-"	border-bottom: 1px solid #cccccc;\n"
-"}"));
+                                                         "	border: none;\n"
+                                                         "	border-radius: 20px;\n"
+                                                         "	padding: 10px;\n"
+                                                         "	background-color: #ffffff;\n"
+                                                         "}\n"
+                                                         "\n"
+                                                         "QHeaderView::section{\n"
+                                                         "	background-color: #ffffff;\n"
+                                                         "	border: none;\n"
+                                                         "	border-bottom: 1px solid #cccccc;\n"
+                                                         "}"));
         treeViewContent->setSortingEnabled(false);
         treeViewContent->setAnimated(false);
 
@@ -87,11 +85,11 @@ public:
         logTextEdit->setMaximumSize(QSize(16777215, 16777215));
         logTextEdit->setLayoutDirection(Qt::LeftToRight);
         logTextEdit->setStyleSheet(QString::fromUtf8("QTextEdit{\n"
-"	border: none;\n"
-"	border-radius: 20px;\n"
-"	padding: 10px;\n"
-"	background-color: #ffffff;\n"
-"}"));
+                                                     "	border: none;\n"
+                                                     "	border-radius: 20px;\n"
+                                                     "	padding: 10px;\n"
+                                                     "	background-color: #ffffff;\n"
+                                                     "}"));
         logTextEdit->setReadOnly(true);
 
         gridLayout->addWidget(logTextEdit, 2, 0, 1, 1);
@@ -99,17 +97,17 @@ public:
         progressBar = new QProgressBar(centralwidget);
         progressBar->setObjectName(QString::fromUtf8("progressBar"));
         progressBar->setStyleSheet(QString::fromUtf8("QProgressBar{\n"
-"	height:22px;\n"
-"	text-align:center;\n"
-"	font-size:14px;\n"
-"	color:black;\n"
-"	border-radius:11px;\n"
-"	background:#ffffff;\n"
-"}\n"
-"QProgressBar::chunk{\n"
-"	border-radius:11px;\n"
-"	background:qlineargradient(spread:pad,x1:0,y1:0,x2:1,y2:0,stop:0 #99ffff,stop:1 #9900ff);\n"
-"}"));
+                                                     "	height:22px;\n"
+                                                     "	text-align:center;\n"
+                                                     "	font-size:14px;\n"
+                                                     "	color:black;\n"
+                                                     "	border-radius:11px;\n"
+                                                     "	background:#ffffff;\n"
+                                                     "}\n"
+                                                     "QProgressBar::chunk{\n"
+                                                     "	border-radius:11px;\n"
+                                                     "	background:qlineargradient(spread:pad,x1:0,y1:0,x2:1,y2:0,stop:0 #99ffff,stop:1 #9900ff);\n"
+                                                     "}"));
         progressBar->setValue(10);
 
         gridLayout->addWidget(progressBar, 1, 0, 1, 1);
@@ -136,12 +134,12 @@ public:
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
 
-    void retranslateUi(QMainWindow *MainWindow)
-    {
+    void retranslateUi(QMainWindow *MainWindow) {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
         actionOpen->setText(QCoreApplication::translate("MainWindow", "\346\211\223\345\274\200", nullptr));
         actionCompress_to->setText(QCoreApplication::translate("MainWindow", "\344\277\235\345\255\230", nullptr));
-        actionDecompress_to->setText(QCoreApplication::translate("MainWindow", "\350\247\243\345\216\213\345\210\260", nullptr));
+        actionDecompress_to->setText(
+                QCoreApplication::translate("MainWindow", "\350\247\243\345\216\213\345\210\260", nullptr));
         actionNew->setText(QCoreApplication::translate("MainWindow", "\346\226\260\345\273\272", nullptr));
         menu->setTitle(QCoreApplication::translate("MainWindow", "\346\226\207\344\273\266", nullptr));
     } // retranslateUi
@@ -149,7 +147,8 @@ public:
 };
 
 namespace Ui {
-    class MainWindow: public Ui_MainWindow {};
+    class MainWindow : public Ui_MainWindow {
+    };
 } // namespace Ui
 
 QT_END_NAMESPACE

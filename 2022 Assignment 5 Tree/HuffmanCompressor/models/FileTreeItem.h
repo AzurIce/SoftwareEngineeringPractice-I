@@ -11,27 +11,30 @@
 
 class FileTreeItem {
 public:
-    explicit FileTreeItem(): m_itemData({"Filename", "Size(Byte)"}), m_parentItem(nullptr) {};
+    explicit FileTreeItem() = default;
 
-    explicit FileTreeItem(FileTreeItem *parent): m_parentItem(parent) {};
+    explicit FileTreeItem(FileTreeItem *parent) : m_parentItem(parent) {};
+
     explicit FileTreeItem(const QString &path, FileTreeItem *parent = nullptr);
 
     explicit FileTreeItem(const QString &filename, QList<FileTreeItem *> &childItems, FileTreeItem *parent = nullptr);
 
     explicit FileTreeItem(const QString &filename, QByteArray &content, FileTreeItem *parent = nullptr);
 
-
     ~FileTreeItem();
+
 
     void appendChild(FileTreeItem *child);
 
     FileTreeItem *child(int row);
 
     void setData();
+
     void setData(QList<QVariant> data);
+
     void setFileName(const QString &filename);
 
-    void save(const QString& path);
+    void save(const QString &path);
 
     QList<FileTreeItem *> getChilds();
 
@@ -51,20 +54,19 @@ public:
 
     friend std::ostream &operator<<(std::ostream &os, const FileTreeItem &fileTreeItem);
 
-
     friend QDataStream &operator<<(QDataStream &stream, const FileTreeItem &fileTreeItem);
 
     friend QDataStream &operator>>(QDataStream &stream, FileTreeItem &fileTreeItem);
 
 private:
-    QList<QVariant> m_itemData;
-    FileTreeItem *m_parentItem;
+    QList<QVariant> m_itemData = {"Filename", "Size(Byte)"};
+    FileTreeItem *m_parentItem = nullptr;
 
     // Need to be Serialized
     QList<FileTreeItem *> m_childItems; // Should Serialize the corresponding object but not pointer
     QByteArray m_content;
     QString m_filename;
-    bool m_isDir;
+    bool m_isDir = false;
 };
 
 

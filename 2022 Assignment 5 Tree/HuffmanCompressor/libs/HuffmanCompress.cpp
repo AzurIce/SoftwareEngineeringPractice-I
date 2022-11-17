@@ -9,7 +9,8 @@
 
 ////// Constructors and destructors //////
 // Construct from original data bytes
-HuffmanCompress::HuffmanCompress(const QByteArray &bytes, std::atomic<int> &current, std::atomic<int> &total): current(current), total(total) {
+HuffmanCompress::HuffmanCompress(const QByteArray &bytes, std::atomic<int> &current, std::atomic<int> &total) : current(
+        current), total(total) {
     m_original_data_bytes = new QByteArray(bytes);
     m_size = bytes.size();
 
@@ -37,6 +38,7 @@ QByteArray HuffmanCompress::toBytes() {
       << getCompressedBytes();
     return bytes;
 }
+
 // Deserialize
 HuffmanCompress *HuffmanCompress::fromBytes(QByteArray *bytes, std::atomic<int> &current, std::atomic<int> &total) {
     auto *compress = new HuffmanCompress(current, total);

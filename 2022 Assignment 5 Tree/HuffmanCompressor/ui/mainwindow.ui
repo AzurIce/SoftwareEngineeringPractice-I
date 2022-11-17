@@ -1,146 +1,150 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>800</width>
-    <height>600</height>
-   </rect>
-  </property>
-  <property name="windowTitle">
-   <string>MainWindow</string>
-  </property>
-  <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="FileTreeView" name="treeViewContent">
-      <property name="styleSheet">
-       <string notr="true">QTreeView{
-	border: none;
-	border-radius: 20px;
-	padding: 10px;
-	background-color: #ffffff;
-}
+    <class>MainWindow</class>
+    <widget class="QMainWindow" name="MainWindow">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>800</width>
+                <height>600</height>
+            </rect>
+        </property>
+        <property name="windowTitle">
+            <string>MainWindow</string>
+        </property>
+        <widget class="QWidget" name="centralwidget">
+            <layout class="QGridLayout" name="gridLayout">
+                <item row="0" column="0">
+                    <widget class="FileTreeView" name="treeViewContent">
+                        <property name="styleSheet">
+                            <string notr="true">QTreeView{
+                                border: none;
+                                border-radius: 20px;
+                                padding: 10px;
+                                background-color: #ffffff;
+                                }
 
-QHeaderView::section{
-	background-color: #ffffff;
-	border: none;
-	border-bottom: 1px solid #cccccc;
-}</string>
-      </property>
-      <property name="sortingEnabled">
-       <bool>false</bool>
-      </property>
-      <property name="animated">
-       <bool>false</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QTextEdit" name="logTextEdit">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>16777215</height>
-       </size>
-      </property>
-      <property name="layoutDirection">
-       <enum>Qt::LeftToRight</enum>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QTextEdit{
-	border: none;
-	border-radius: 20px;
-	padding: 10px;
-	background-color: #ffffff;
-}</string>
-      </property>
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="QProgressBar" name="progressBar">
-      <property name="styleSheet">
-       <string notr="true">QProgressBar{
-	height:22px;
-	text-align:center;
-	font-size:14px;
-	color:black;
-	border-radius:11px;
-	background:#ffffff;
-}
-QProgressBar::chunk{
-	border-radius:11px;
-	background:qlineargradient(spread:pad,x1:0,y1:0,x2:1,y2:0,stop:0 #99ffff,stop:1 #9900ff);
-}</string>
-      </property>
-      <property name="value">
-       <number>10</number>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>800</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menu">
-    <property name="title">
-     <string>文件</string>
-    </property>
-    <addaction name="actionOpen"/>
-    <addaction name="actionNew"/>
-    <addaction name="actionCompress_to"/>
-    <addaction name="actionDecompress_to"/>
-   </widget>
-   <addaction name="menu"/>
-  </widget>
-  <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionOpen">
-   <property name="text">
-    <string>打开</string>
-   </property>
-  </action>
-  <action name="actionCompress_to">
-   <property name="text">
-    <string>保存</string>
-   </property>
-  </action>
-  <action name="actionDecompress_to">
-   <property name="text">
-    <string>解压到</string>
-   </property>
-  </action>
-  <action name="actionNew">
-   <property name="text">
-    <string>新建</string>
-   </property>
-  </action>
- </widget>
- <customwidgets>
-  <customwidget>
-   <class>FileTreeView</class>
-   <extends>QTreeView</extends>
-   <header location="global">views/FileTreeView.h</header>
-  </customwidget>
- </customwidgets>
- <resources/>
- <connections/>
+                                QHeaderView::section{
+                                background-color: #ffffff;
+                                border: none;
+                                border-bottom: 1px solid #cccccc;
+                                }
+                            </string>
+                        </property>
+                        <property name="sortingEnabled">
+                            <bool>false</bool>
+                        </property>
+                        <property name="animated">
+                            <bool>false</bool>
+                        </property>
+                    </widget>
+                </item>
+                <item row="2" column="0">
+                    <widget class="QTextEdit" name="logTextEdit">
+                        <property name="sizePolicy">
+                            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="maximumSize">
+                            <size>
+                                <width>16777215</width>
+                                <height>16777215</height>
+                            </size>
+                        </property>
+                        <property name="layoutDirection">
+                            <enum>Qt::LeftToRight</enum>
+                        </property>
+                        <property name="styleSheet">
+                            <string notr="true">QTextEdit{
+                                border: none;
+                                border-radius: 20px;
+                                padding: 10px;
+                                background-color: #ffffff;
+                                }
+                            </string>
+                        </property>
+                        <property name="readOnly">
+                            <bool>true</bool>
+                        </property>
+                    </widget>
+                </item>
+                <item row="1" column="0">
+                    <widget class="QProgressBar" name="progressBar">
+                        <property name="styleSheet">
+                            <string notr="true">QProgressBar{
+                                height:22px;
+                                text-align:center;
+                                font-size:14px;
+                                color:black;
+                                border-radius:11px;
+                                background:#ffffff;
+                                }
+                                QProgressBar::chunk{
+                                border-radius:11px;
+                                background:qlineargradient(spread:pad,x1:0,y1:0,x2:1,y2:0,stop:0 #99ffff,stop:1
+                                #9900ff);
+                                }
+                            </string>
+                        </property>
+                        <property name="value">
+                            <number>10</number>
+                        </property>
+                    </widget>
+                </item>
+            </layout>
+        </widget>
+        <widget class="QMenuBar" name="menubar">
+            <property name="geometry">
+                <rect>
+                    <x>0</x>
+                    <y>0</y>
+                    <width>800</width>
+                    <height>22</height>
+                </rect>
+            </property>
+            <widget class="QMenu" name="menu">
+                <property name="title">
+                    <string>文件</string>
+                </property>
+                <addaction name="actionOpen"/>
+                <addaction name="actionNew"/>
+                <addaction name="actionCompress_to"/>
+                <addaction name="actionDecompress_to"/>
+            </widget>
+            <addaction name="menu"/>
+        </widget>
+        <widget class="QStatusBar" name="statusbar"/>
+        <action name="actionOpen">
+            <property name="text">
+                <string>打开</string>
+            </property>
+        </action>
+        <action name="actionCompress_to">
+            <property name="text">
+                <string>保存</string>
+            </property>
+        </action>
+        <action name="actionDecompress_to">
+            <property name="text">
+                <string>解压到</string>
+            </property>
+        </action>
+        <action name="actionNew">
+            <property name="text">
+                <string>新建</string>
+            </property>
+        </action>
+    </widget>
+    <customwidgets>
+        <customwidget>
+            <class>FileTreeView</class>
+            <extends>QTreeView</extends>
+            <header location="global">views/FileTreeView.h</header>
+        </customwidget>
+    </customwidgets>
+    <resources/>
+    <connections/>
 </ui>

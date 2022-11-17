@@ -26,7 +26,8 @@ public:
     [[nodiscard]] Qt::ItemFlags flags(const QModelIndex &index) const override;
 
     // Returns the data for the given role and section in the header with the specified orientation.
-    [[nodiscard]] QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+    [[nodiscard]] QVariant
+    headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
     [[nodiscard]] QModelIndex index(int row, int column, const QModelIndex &parent) const override;
 
@@ -35,9 +36,11 @@ public:
     [[nodiscard]] QModelIndex parent(const QModelIndex &index) const override;
 
     [[nodiscard]] int rowCount(const QModelIndex &parent) const override;
+
     [[nodiscard]] int rowCount() const;
 
     [[nodiscard]] int columnCount(const QModelIndex &parent) const override;
+
     [[nodiscard]] int columnCount() const;
 
     void addFile(const QString &path);

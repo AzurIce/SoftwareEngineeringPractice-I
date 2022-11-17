@@ -6,7 +6,6 @@
 #include <QDebug>
 
 void BytesSaver::writeBytes() {
-//    saving = true;
     QFile file(path);
     if (!file.open(QFile::WriteOnly)) return;
     QDataStream ws(&file);
@@ -16,11 +15,8 @@ void BytesSaver::writeBytes() {
         ws << byte;
         current++;
     }
-//    saving = false;
 }
 
 void BytesSaver::save() {
     writeBytes();
-//    QThread *t = QThread::create(&BytesSaver::writeBytes, this);
-//    t->start();
 }

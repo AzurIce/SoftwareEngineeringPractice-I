@@ -16,11 +16,9 @@ void MainWindow::timerEvent(QTimerEvent *event) {
 
 void MainWindow::open(const QString &path) {
     logln("正在读取文件...");
-//    QByteArray bytes = Utils::readBytes(path);
     delete reader;
     reader = new BytesReader(path, current, total);
     auto bytes = reader->read();
-    delete reader; reader = nullptr;
 
     logln("正在解码...");
     delete compress;
@@ -35,7 +33,6 @@ void MainWindow::open(const QString &path) {
     model = new FileTreeItemModel(item);
     ui->treeViewContent->setModel(model);
     logln("加载完成");
-//    ui->progressBar->setValue(ui->progressBar->maximum());
 }
 
 void MainWindow::save(const QString &path) {
@@ -48,14 +45,13 @@ void MainWindow::save(const QString &path) {
     int &&compressedSize = compress->getCompressedBytes().size();
     logln("原大小：" + QString::number(originalSize) + "Bytes");
     logln("压缩后大小：" + QString::number(compressedSize) + "Bytes");
-    logln("减小了：" + QString::number((1.0 - (double)compressedSize/originalSize) * 100) + "%");
+    logln("减小了：" + QString::number((1.0 - (double) compressedSize / originalSize) * 100) + "%");
 
     logln("正在保存文件...");
     delete saver;
     saver = new BytesSaver(compress->toBytes(), path, current, total);
     saver->save();
     logln("文件保存完成");
-//    ui->progressBar->setValue(ui->progressBar->maximum());
 }
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {

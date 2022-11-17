@@ -8,10 +8,8 @@
 QByteArray BytesReader::readBytes() {
     QByteArray bytes;
 
-//    reading = true;
     QFile file(path);
     if (!file.open(QFile::ReadOnly)) {
-//        reading = false;
         current = 0;
         return bytes;
     }
@@ -26,12 +24,9 @@ QByteArray BytesReader::readBytes() {
         current++;
     }
 
-//    reading = false;
     return bytes;
 }
 
 QByteArray BytesReader::read() {
     return readBytes();
-//    QThread *t = QThread::create(&BytesSaver::writeBytes, this);
-//    t->start();
 }

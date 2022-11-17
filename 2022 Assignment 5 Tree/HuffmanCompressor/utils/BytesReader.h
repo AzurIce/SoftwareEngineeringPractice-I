@@ -15,13 +15,13 @@
 class BytesReader {
 public:
     BytesReader(const QString &path, std::atomic<int> &current, std::atomic<int> &total) :
-    path(path), current(current), total(total) {};
+            path(path), current(current), total(total) {};
 
-//    std::atomic<bool> reading = false;
     std::atomic<int> &current;
     std::atomic<int> &total;
 
     QByteArray read();
+
 private:
     const QString path;
 

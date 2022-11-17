@@ -38,7 +38,7 @@ void FileTreeView::dropEvent(QDropEvent *event) {
         return;
 
     qDebug() << "View - dropEvent - Adding Files: " << urls;
-    for (auto url: urls) {
+    for (const auto &url: urls) {
         QString file_name = url.toLocalFile();
         ((FileTreeItemModel *) this->model())->addFile(file_name);
 //        update();

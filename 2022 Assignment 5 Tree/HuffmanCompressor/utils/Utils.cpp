@@ -101,7 +101,7 @@ QMap<char, unsigned int> Utils::getBytesHist(const QByteArray &bytes) {
     return byteHist;
 }
 
-std::vector<bool> Utils::byte2Bits(const char &byte)  {
+std::vector<bool> Utils::byte2Bits(const char &byte) {
     std::vector<bool> bits;
     for (int i = 7; i >= 0; i--) {
         bits.push_back((byte & (1 << i)) != 0);
