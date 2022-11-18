@@ -33,43 +33,15 @@ public:
     bool empty();
 
     QString toString();
+private:
     int _front;
     int _rear;  // After the last element
     int _capacity;
-private:
     T* _queue;
 
-    void reArrange() {
-        T* tmpQueue = (T*) malloc(sizeof(T) * _capacity);
-        memcpy(tmpQueue, _queue, _capacity);
-//        qDebug() << "Copying from _ to tmp";
-        if (_rear > _front) {
-//            qDebug() << "Copying from tmp + front to _";
-            memcpy(_queue, tmpQueue + _front, _rear - _front);
-        } else if (_rear < _front) {
-//            qDebug() << "Copying from tmp + front to _";
-            memcpy(_queue, tmpQueue + _front, _capacity - _front);
-//            qDebug() << "Copying from tmp + rear to _ + capacity - front";
-            memcpy(_queue + _capacity - _front, tmpQueue + _rear, _front - _rear);
-        }
-//        qDebug() << "Freeing tmp";
-        free(tmpQueue);
-        _front = 0;
-        _rear = _capacity - 1;
-    }
+    void reArrange();
 
-    bool resize(int capacity) {
-        reArrange();
-
-        T* newQueue = (T*) realloc(_queue, sizeof(T) * capacity);
-        if (newQueue) {
-            _capacity = capacity;
-//            qDebug() << "!!! new capacity: " << _capacity;
-            _queue = newQueue;
-            return true;
-        }
-        return false;
-    }
+    bool resize(int capacity);
 
     int indexAdd(int i, int x) {
         return (i + x) % _capacity;
@@ -101,6 +73,35 @@ Queue<T>::~Queue() {
     free(_queue);
     _queue = nullptr;
 }
+
+template <typename T>
+void Queue<T>::reArrange() {
+    T* tmpQueue = (T*) malloc(sizeof(T) * _capacity);
+    memcpy(tmpQueue, _queue, _capacity);
+    if (_rear > _front) {
+        memcpy(_queue, tmpQueue + _front, _rear - _front);
+    } else if (_rear < _front) {
+        memcpy(_queue, tmpQueue + _front, _capacity - _front);
+        memcpy(_queue + _capacity - _front, tmpQueue + _rear, _front - _rear);
+    }
+    free(tmpQueue);
+    _front = 0;
+    _rear = _capacity - 1;
+}
+
+template <typename T>
+bool Queue<T>::resize(int capacity) {
+    reArrange();
+
+    T* newQueue = (T*) realloc(_queue, sizeof(T) * capacity);
+    if (newQueue) {
+        _capacity = capacity;
+        _queue = newQueue;
+        return true;
+    }
+    return false;
+}
+
 
 // Basic operation of Stack
 template <typename T>

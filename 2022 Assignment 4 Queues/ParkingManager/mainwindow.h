@@ -3,8 +3,8 @@
 
 #include <QMainWindow>
 #include <QGraphicsScene>
-#include "GraphicsItemCar.h"
-#include "Queue.h"
+#include "car_graphics_item.h"
+#include "queue.h"
 #include <set>
 
 QT_BEGIN_NAMESPACE

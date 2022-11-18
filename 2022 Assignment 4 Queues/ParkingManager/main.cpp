@@ -3,9 +3,10 @@
 #include <QApplication>
 #include <QDebug>
 
-#include "Queue.h"
+//#define DEBUG
 
-const bool DEBUG = 0;
+#ifdef DEBUG
+#include "queue.h"
 
 void debugMain() {
     Queue<int> testQ;
@@ -34,15 +35,17 @@ void debugMain() {
         testQ.pop();
     }
 }
+#endif
 
 int main(int argc, char *argv[])
 {
-    if (DEBUG) {
-        debugMain();
-        return 0;
-    }
+#ifdef DEBUG
+    debugMain();
+    return 0;
+#else
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
     return a.exec();
+#endif
 }

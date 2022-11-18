@@ -1,4 +1,4 @@
-#include "Queue.h"
+#include "queue.h"
 
 template<>
 QString Queue<double>::toString() {

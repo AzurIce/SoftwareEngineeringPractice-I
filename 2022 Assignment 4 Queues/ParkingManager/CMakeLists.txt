@@ -15,14 +15,10 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
-#    AnimationCar.h AnimationCar.cpp
-#    MyAnimation.h MyAnimation.cpp
-#    GraphicsItemGate.h GraphicsItemGate.cpp
-#    GraphicsViewCarQueue.h GraphicsViewCarQueue.cpp
-    GraphicsItemParkingSlot.h GraphicsItemParkingSlot.cpp
-    GraphicsViewCarPark.h GraphicsViewCarPark.cpp
-    GraphicsItemCar.h GraphicsItemCar.cpp
-    Queue.cpp Queue.h
+    parking_slot_graphics_item.h parking_slot_graphics_item.cpp
+    carpark_graphics_view.h carpark_graphics_view.cpp
+    car_graphics_item.h car_graphics_item.cpp
+    queue.cpp queue.h
     main.cpp
     mainwindow.cpp
     mainwindow.h

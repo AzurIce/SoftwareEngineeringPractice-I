@@ -273,7 +273,7 @@
   <customwidget>
    <class>GraphicsViewCarPark</class>
    <extends>QGraphicsView</extends>
-   <header location="global">GraphicsViewCarPark.h</header>
+   <header location="global">carpark_graphics_view.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
