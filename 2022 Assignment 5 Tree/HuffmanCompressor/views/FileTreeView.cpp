@@ -19,7 +19,7 @@ FileTreeView::FileTreeView(QWidget *parent) : QTreeView(parent) {
     });
     connect(this, &FileTreeView::doubleClicked, this, [=](const QModelIndex &index) {
         if (!static_cast<FileTreeItem *>(index.internalPointer())->isDir())
-            emit extractAndOpenFile(static_cast<FileTreeItem *>(index.internalPointer()));
+                emit extractAndOpenFile(static_cast<FileTreeItem *>(index.internalPointer()));
     });
 //    setModel(new QStandardItemModel());
 //    setModel(new CompressedFileItemModel("F:\\Syncthing\\Notes\\Coding\\Rust"));
@@ -59,13 +59,14 @@ void FileTreeView::dropEvent(QDropEvent *event) {
 }
 
 void FileTreeView::deleteSelected() {
-    for (auto index:QTreeView::selectedIndexes()) {
-        ((FileTreeItemModel *)model())->deleteAtIndex(index);
+    for (auto index: QTreeView::selectedIndexes()) {
+        ((FileTreeItemModel *) model())->deleteAtIndex(index);
     }
 }
+
 void FileTreeView::saveSelected(const QString &path) {
     qDebug() << QTreeView::selectedIndexes();
-    for (auto index:QTreeView::selectedIndexes()) {
+    for (auto index: QTreeView::selectedIndexes()) {
         static_cast<FileTreeItem *>(index.internalPointer())->save(path);
     }
 }

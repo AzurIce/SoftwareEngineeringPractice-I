@@ -40,6 +40,7 @@ private:
     void logln(const QString &str);
 
     void save(const QString &path);
+
     void saveAndOpen(FileTreeItem *item);
 
     void open(const QString &path);

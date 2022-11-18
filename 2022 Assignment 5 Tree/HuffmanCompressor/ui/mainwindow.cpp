@@ -57,7 +57,7 @@ void MainWindow::save(const QString &path) {
     logln("文件保存完成");
 }
 
-void MainWindow::saveAndOpen(FileTreeItem* item) {
+void MainWindow::saveAndOpen(FileTreeItem *item) {
     QDir dir("./tmp");
     if (!dir.exists()) QDir("./").mkdir("tmp");
     item->save(dir.absolutePath());
@@ -72,7 +72,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->btnAddFile, &QPushButton::clicked, this, [=]() {
         QList<QString> filepaths = QFileDialog::getOpenFileNames(this, " 添加文件 ", "./", "*");
         if (!filepaths.length()) return;
-        for (auto filepath:filepaths)
+        for (auto filepath: filepaths)
             model->addFile(filepath);
     });
     connect(ui->btnAddDir, &QPushButton::clicked, this, [=]() {
@@ -84,7 +84,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     // Select
     connect(ui->btnSelectAll, &QPushButton::clicked, this, [=]() {
-       ui->treeViewContent->selectAll();
+        ui->treeViewContent->selectAll();
     });
     connect(ui->btnSelectNone, &QPushButton::clicked, this, [=]() {
         ui->treeViewContent->clearSelection();

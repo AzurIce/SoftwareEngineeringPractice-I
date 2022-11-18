@@ -210,6 +210,7 @@ void FileTreeItem::save(const QString &path) {
 bool FileTreeItem::isDir() const {
     return m_isDir;
 }
+
 QString FileTreeItem::getFilename() const {
     return m_filename;
 }

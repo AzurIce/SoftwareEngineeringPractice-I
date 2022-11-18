@@ -114,7 +114,8 @@ void FileTreeItemModel::addFile(const QString &path) {
 
 void FileTreeItemModel::deleteAtIndex(QModelIndex index) {
     beginRemoveRows(index.parent(), index.row(), index.row());
-    static_cast<FileTreeItem *>(index.parent().internalPointer())->removeChild(static_cast<FileTreeItem *>(index.internalPointer()));
+    static_cast<FileTreeItem *>(index.parent().internalPointer())->removeChild(
+            static_cast<FileTreeItem *>(index.internalPointer()));
     endRemoveRows();
 }
 

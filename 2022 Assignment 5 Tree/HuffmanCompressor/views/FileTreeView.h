@@ -18,9 +18,13 @@ public:
     explicit FileTreeView(QWidget *parent);
 
     void addFile(QString &path);
+
     void deleteSelected();
+
     void saveSelected(const QString &path);
+
 signals:
+
     void extractAndOpenFile(FileTreeItem *item);
 
 protected:
