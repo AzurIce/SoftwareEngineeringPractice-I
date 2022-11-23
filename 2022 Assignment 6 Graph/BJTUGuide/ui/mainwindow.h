@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QGraphicsItem>
+#include "models/InterestPointList.h"
+#include "graphics/InterestPointGraphicsItem.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -15,7 +18,12 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    public slots:
+    void onSelect(int index);
+    void onCheck(int index, bool checked);
 private:
     Ui::MainWindow *ui;
+    std::vector<InterestPointGraphicsItem *> interestPoints;
+    InterestPointList interestPointList;
 };
 #endif // MAINWINDOW_H

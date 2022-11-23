@@ -1,14 +1,15 @@
-#include "mainwindow.h"
+#include "ui/mainwindow.h"
 
 #include <QApplication>
-//#include <QDebug>
-//#include <iostream>
+#include <QmlTypeAndRevisionsRegistration>
+#include "models/InterestPoint.h"
 
 int main(int argc, char *argv[])
 {
-//    qDebug() << "?";
-//    std::cout << "??" << std::endl;
     QApplication a(argc, argv);
+
+    qmlRegisterType<InterestPoint>("MyClass.module", 1, 0, "MyQml");
+
     MainWindow w;
     w.show();
     return a.exec();

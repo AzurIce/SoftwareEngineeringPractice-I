@@ -9,42 +9,41 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-#set(CMAKE_PREFIX_PATH "F:/Dev/_Installs/Qt/6.5.0/mingw_64")
-
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets QuickWidgets Sql Positioning)
 
 set(PROJECT_SOURCES
         main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        mainwindow.ui
+        ui/mainwindow.cpp
+        ui/mainwindow.h
+        ui/mainwindow.ui
+        ui/test.qml
+        storage/Database.cpp
+        storage/Database.h
+        storage/InitDB.h
+        models/InterestPoint.cpp
+        models/InterestPoint.h
+        models/InterestPointList.cpp models/InterestPointList.h graphics/InterestPointGraphicsItem.cpp graphics/InterestPointGraphicsItem.h)
+
+qt_add_executable(BJTUGuide
+    MANUAL_FINALIZATION
+    ${PROJECT_SOURCES}
 )
 
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(BJTUGuide
-        MANUAL_FINALIZATION
-        ${PROJECT_SOURCES}
+qt_add_resources(BJTUGuide res
+        PREFIX "/res"
+        FILES
+            res/YiFu.png
+            res/map.png
     )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET BJTUGuide APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
-else()
-    if(ANDROID)
-        add_library(BJTUGuide SHARED
-            ${PROJECT_SOURCES}
-        )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-    else()
-        add_executable(BJTUGuide
-            ${PROJECT_SOURCES}
-        )
-    endif()
-endif()
 
-target_link_libraries(BJTUGuide PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+qt_add_qml_module(BJTUGuide
+    URI myqml
+    VERSION 1.0
+    QML_FILES ui/test.qml ui/MySwitch.qml
+)
+
+target_link_libraries(BJTUGuide PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt6::QuickWidgets Qt6::Sql Qt6::Positioning)
 
 set_target_properties(BJTUGuide PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
