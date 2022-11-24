@@ -2,13 +2,13 @@
 
 #include <QApplication>
 #include <QmlTypeAndRevisionsRegistration>
-#include "models/InterestPoint.h"
+#include "models/InterestPointData.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    qmlRegisterType<InterestPoint>("MyClass.module", 1, 0, "MyQml");
+    qmlRegisterType<InterestPointData>("MyClass.module", 1, 0, "MyQml");
 
     MainWindow w;
     w.show();

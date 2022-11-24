@@ -41,22 +41,22 @@ QRectF Edge::boundingRect() const
 
 void Edge::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    if (!source || !dest)
-        return;
-
     QLineF line(sourcePoint, destPoint);
     if (qFuzzyCompare(line.length(), qreal(0.)))
         return;
 
     // Draw the line itself
     if (m_selected) {
-        painter->setPen(QPen(QColor(110, 110, 220), 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+        painter->setPen(QPen(QColor(110, 110, 220), 3, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     } else {
         painter->setPen(QPen(QColor(160, 160, 160), 1, Qt::DashDotDotLine, Qt::RoundCap, Qt::RoundJoin));
     }
-
     painter->drawLine(line);
 
-
+    if (m_selected) {
+        painter->setPen(QPen(QColor(110, 110, 220), 4, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+    } else {
+        painter->setPen(QPen(QColor(110, 110, 110), 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+    }
     painter->drawText((sourcePoint + destPoint) / 2, QString::number(w));
 }
