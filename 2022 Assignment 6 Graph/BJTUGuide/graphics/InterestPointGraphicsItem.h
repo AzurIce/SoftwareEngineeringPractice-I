@@ -9,33 +9,38 @@
 #include <QGraphicsItem>
 #include <QPainter>
 #include <atomic>
+#include <utility>
+#include "utils/GeoUtils.h"
 
 class InterestPointGraphicsItem : public QGraphicsItem {
 public:
-    InterestPointGraphicsItem(const QString &name, double x, double y) {
-        m_name = name;
+    InterestPointGraphicsItem(int id, QString name, double lat, double lng,
+                              bool selected = false, bool checked = true):
+                              m_id(id), m_name(std::move(name)), m_selected(selected), m_checked(checked) {
+        auto [x, y] = GeoUtils::getCoord(lat, lng);
         setPos(x, y);
     }
-    std::atomic<bool> selected = false;
-    std::atomic<bool> checked = true;
+
+    int m_id;
+    std::atomic<bool> m_selected = false;
+    std::atomic<bool> m_checked = true;
+    std::atomic<bool> m_passed = false;
     QString m_name;
 
-    QRectF boundingRect() const override
-    {
+    QRectF boundingRect() const override {
         qreal penWidth = 1;
-        return QRectF(-10 - penWidth / 2, -10 - penWidth / 2,
-                      20 + penWidth, 20 + penWidth);
+        return QRectF(-10 - penWidth / 2, -10 - penWidth / 2, 20 + penWidth, 20 + penWidth);
     }
 
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-               QWidget *widget) override
-    {
-        painter->drawText(-4, -8, m_name);
-//        painter->setPen(QPen(selected ? QColor(255, 0, 0) : QColor(100, 100, 100), 6));
-//        painter->drawPoint(0, 0);
-        painter->setBrush(QBrush(selected ? QColor(255, 0, 0) : checked ? QColor(100, 100, 100) : QColor(200, 200, 200)));
-        painter->drawEllipse(0, 0, 10, 10);
-//        painter->fillRect(-5, -5, 10, 10, QBrush(selected ? QColor(255, 0, 0) : QColor(100, 100, 100)));
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override {
+        painter->drawText(-4, m_passed ? -16 : -8, m_name);
+        if (m_selected) {
+            painter->setPen(QPen(QColor(255, 0, 0), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+        } else {
+            painter->setPen(QPen(QColor(160, 160, 160), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+        }
+        painter->setBrush(QBrush(m_passed ? QColor(110, 110, 220) : QColor(160, 160, 160)));
+        painter->drawEllipse(m_checked ? -10 : -5, m_checked ? -10 : -5, m_checked ? 20 : 10, m_checked ? 20 : 10);
     }
 };
 

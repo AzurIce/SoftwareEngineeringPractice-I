@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets QuickWidgets Sql Positioning)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets QuickWidgets Sql Positioning Network)
 
 set(PROJECT_SOURCES
         main.cpp
@@ -23,7 +23,7 @@ set(PROJECT_SOURCES
         storage/InitDB.h
         models/InterestPoint.cpp
         models/InterestPoint.h
-        models/InterestPointList.cpp models/InterestPointList.h graphics/InterestPointGraphicsItem.cpp graphics/InterestPointGraphicsItem.h)
+        models/InterestPointList.cpp models/InterestPointList.h graphics/InterestPointGraphicsItem.cpp graphics/InterestPointGraphicsItem.h utils/GeoUtils.h graphics/Edge.cpp graphics/Edge.h)
 
 qt_add_executable(BJTUGuide
     MANUAL_FINALIZATION
@@ -34,7 +34,37 @@ qt_add_resources(BJTUGuide res
         PREFIX "/res"
         FILES
             res/YiFu.png
+            res/SiYuan.png
+            res/SiYuanXi.png
+            res/SiYuanDong.png
+            res/MingHu.png
+            res/FangHuaYuan.png
+            res/TuShuGuan.png
+            res/XueHuo.png
+            res/ShiJiZhong.png
+            res/JiXiuYuan.png
+            res/NanMen.png
+            res/TianYou.png
             res/map.png
+            res/map/17/107893/49643.png
+            res/map/17/107893/49644.png
+            res/map/17/107893/49645.png
+
+            res/map/17/107894/49643.png
+            res/map/17/107894/49644.png
+            res/map/17/107894/49645.png
+
+            res/map/17/107895/49643.png
+            res/map/17/107895/49644.png
+            res/map/17/107895/49645.png
+
+            res/map/17/107896/49643.png
+            res/map/17/107896/49644.png
+            res/map/17/107896/49645.png
+
+            res/map/17/107897/49643.png
+            res/map/17/107897/49644.png
+            res/map/17/107897/49645.png
     )
 
 qt_add_qml_module(BJTUGuide
@@ -43,7 +73,7 @@ qt_add_qml_module(BJTUGuide
     QML_FILES ui/test.qml ui/MySwitch.qml
 )
 
-target_link_libraries(BJTUGuide PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt6::QuickWidgets Qt6::Sql Qt6::Positioning)
+target_link_libraries(BJTUGuide PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt6::QuickWidgets Qt6::Sql Qt6::Positioning Qt6::Network)
 
 set_target_properties(BJTUGuide PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
