@@ -18,24 +18,6 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="2">
-     <widget class="QGraphicsView" name="graphicsView">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QGraphicsView {
-	border: none;
-	border-radius: 20px;
-	padding: 10px;
-	background-color: #ffffff;
-}</string>
-      </property>
-     </widget>
-    </item>
     <item row="0" column="9" rowspan="2">
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
@@ -236,13 +218,34 @@
          <string notr="true"/>
         </property>
         <property name="text">
-         <string>显示游遍选定景点的最短路径</string>
+         <string>显示由起点游遍选定景点的最短路径</string>
         </property>
        </widget>
       </item>
      </layout>
     </item>
-    <item row="0" column="4" rowspan="2">
+    <item row="1" column="2">
+     <widget class="QPlainTextEdit" name="plainTextEdit">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPlainTextEdit {
+	border: none;
+	border-radius: 20px;
+	padding: 10px;
+	background-color: #ffffff;
+}</string>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="5">
      <widget class="QSlider" name="slider">
       <property name="minimum">
        <number>77</number>
@@ -267,24 +270,28 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="2">
-     <widget class="QPlainTextEdit" name="plainTextEdit">
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>100</height>
-       </size>
+    <item row="0" column="2" colspan="3">
+     <widget class="QGraphicsView" name="graphicsView">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
       <property name="styleSheet">
-       <string notr="true">QPlainTextEdit {
+       <string notr="true">QGraphicsView {
 	border: none;
 	border-radius: 20px;
 	padding: 10px;
 	background-color: #ffffff;
 }</string>
       </property>
-      <property name="readOnly">
-       <bool>true</bool>
+     </widget>
+    </item>
+    <item row="1" column="4" colspan="2">
+     <widget class="QCheckBox" name="checkBox">
+      <property name="text">
+       <string>TTS</string>
       </property>
      </widget>
     </item>

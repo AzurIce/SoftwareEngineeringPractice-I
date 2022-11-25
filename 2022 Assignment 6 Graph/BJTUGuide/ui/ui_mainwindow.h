@@ -12,6 +12,7 @@
 #include <QtCore/QVariant>
 #include <QtQuickWidgets/QQuickWidget>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QLabel>
@@ -32,7 +33,6 @@ class Ui_MainWindow
 public:
     QWidget *centralwidget;
     QGridLayout *gridLayout;
-    QGraphicsView *graphicsView;
     QVBoxLayout *verticalLayout;
     QGridLayout *gridLayout_3;
     QLabel *label_2;
@@ -46,8 +46,10 @@ public:
     QPushButton *btnShowShortestPath1;
     QQuickWidget *quickWidget;
     QPushButton *btnShowShortestPath2;
-    QSlider *slider;
     QPlainTextEdit *plainTextEdit;
+    QSlider *slider;
+    QGraphicsView *graphicsView;
+    QCheckBox *checkBox;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -61,33 +63,17 @@ public:
         centralwidget->setObjectName("centralwidget");
         gridLayout = new QGridLayout(centralwidget);
         gridLayout->setObjectName("gridLayout");
-        graphicsView = new QGraphicsView(centralwidget);
-        graphicsView->setObjectName("graphicsView");
-        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(graphicsView->sizePolicy().hasHeightForWidth());
-        graphicsView->setSizePolicy(sizePolicy);
-        graphicsView->setStyleSheet(QString::fromUtf8("QGraphicsView {\n"
-"	border: none;\n"
-"	border-radius: 20px;\n"
-"	padding: 10px;\n"
-"	background-color: #ffffff;\n"
-"}"));
-
-        gridLayout->addWidget(graphicsView, 0, 2, 1, 1);
-
         verticalLayout = new QVBoxLayout();
         verticalLayout->setObjectName("verticalLayout");
         gridLayout_3 = new QGridLayout();
         gridLayout_3->setObjectName("gridLayout_3");
         label_2 = new QLabel(centralwidget);
         label_2->setObjectName("label_2");
-        QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Preferred);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(label_2->sizePolicy().hasHeightForWidth());
-        label_2->setSizePolicy(sizePolicy1);
+        QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(label_2->sizePolicy().hasHeightForWidth());
+        label_2->setSizePolicy(sizePolicy);
 
         gridLayout_3->addWidget(label_2, 1, 0, 1, 1);
 
@@ -98,11 +84,11 @@ public:
 
         lineEdit = new QLineEdit(centralwidget);
         lineEdit->setObjectName("lineEdit");
-        QSizePolicy sizePolicy2(QSizePolicy::Preferred, QSizePolicy::Fixed);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(lineEdit->sizePolicy().hasHeightForWidth());
-        lineEdit->setSizePolicy(sizePolicy2);
+        QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Fixed);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(lineEdit->sizePolicy().hasHeightForWidth());
+        lineEdit->setSizePolicy(sizePolicy1);
         lineEdit->setStyleSheet(QString::fromUtf8("QLineEdit {\n"
 "	border: none;\n"
 "	border-radius: 4px;\n"
@@ -115,15 +101,15 @@ public:
 
         label = new QLabel(centralwidget);
         label->setObjectName("label");
-        sizePolicy1.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
-        label->setSizePolicy(sizePolicy1);
+        sizePolicy.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
+        label->setSizePolicy(sizePolicy);
 
         gridLayout_3->addWidget(label, 3, 0, 1, 1);
 
         lineEdit_2 = new QLineEdit(centralwidget);
         lineEdit_2->setObjectName("lineEdit_2");
-        sizePolicy2.setHeightForWidth(lineEdit_2->sizePolicy().hasHeightForWidth());
-        lineEdit_2->setSizePolicy(sizePolicy2);
+        sizePolicy1.setHeightForWidth(lineEdit_2->sizePolicy().hasHeightForWidth());
+        lineEdit_2->setSizePolicy(sizePolicy1);
         lineEdit_2->setStyleSheet(QString::fromUtf8("QLineEdit {\n"
 "	border: none;\n"
 "	border-radius: 4px;\n"
@@ -144,11 +130,11 @@ public:
 
         btnSetStart = new QPushButton(centralwidget);
         btnSetStart->setObjectName("btnSetStart");
-        QSizePolicy sizePolicy3(QSizePolicy::Minimum, QSizePolicy::Fixed);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(btnSetStart->sizePolicy().hasHeightForWidth());
-        btnSetStart->setSizePolicy(sizePolicy3);
+        QSizePolicy sizePolicy2(QSizePolicy::Minimum, QSizePolicy::Fixed);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(btnSetStart->sizePolicy().hasHeightForWidth());
+        btnSetStart->setSizePolicy(sizePolicy2);
         btnSetStart->setMinimumSize(QSize(0, 40));
         btnSetStart->setMaximumSize(QSize(300, 16777215));
         btnSetStart->setStyleSheet(QString::fromUtf8(""));
@@ -157,8 +143,8 @@ public:
 
         btnSetEnd = new QPushButton(centralwidget);
         btnSetEnd->setObjectName("btnSetEnd");
-        sizePolicy3.setHeightForWidth(btnSetEnd->sizePolicy().hasHeightForWidth());
-        btnSetEnd->setSizePolicy(sizePolicy3);
+        sizePolicy2.setHeightForWidth(btnSetEnd->sizePolicy().hasHeightForWidth());
+        btnSetEnd->setSizePolicy(sizePolicy2);
         btnSetEnd->setMinimumSize(QSize(0, 40));
         btnSetEnd->setMaximumSize(QSize(300, 16777215));
         btnSetEnd->setStyleSheet(QString::fromUtf8(""));
@@ -167,8 +153,8 @@ public:
 
         btnShowShortestPath1 = new QPushButton(centralwidget);
         btnShowShortestPath1->setObjectName("btnShowShortestPath1");
-        sizePolicy3.setHeightForWidth(btnShowShortestPath1->sizePolicy().hasHeightForWidth());
-        btnShowShortestPath1->setSizePolicy(sizePolicy3);
+        sizePolicy2.setHeightForWidth(btnShowShortestPath1->sizePolicy().hasHeightForWidth());
+        btnShowShortestPath1->setSizePolicy(sizePolicy2);
         btnShowShortestPath1->setMinimumSize(QSize(0, 40));
         btnShowShortestPath1->setMaximumSize(QSize(300, 16777215));
         btnShowShortestPath1->setStyleSheet(QString::fromUtf8(""));
@@ -184,8 +170,8 @@ public:
 
         btnShowShortestPath2 = new QPushButton(centralwidget);
         btnShowShortestPath2->setObjectName("btnShowShortestPath2");
-        sizePolicy3.setHeightForWidth(btnShowShortestPath2->sizePolicy().hasHeightForWidth());
-        btnShowShortestPath2->setSizePolicy(sizePolicy3);
+        sizePolicy2.setHeightForWidth(btnShowShortestPath2->sizePolicy().hasHeightForWidth());
+        btnShowShortestPath2->setSizePolicy(sizePolicy2);
         btnShowShortestPath2->setMinimumSize(QSize(0, 40));
         btnShowShortestPath2->setStyleSheet(QString::fromUtf8(""));
 
@@ -193,18 +179,6 @@ public:
 
 
         gridLayout->addLayout(verticalLayout, 0, 9, 2, 1);
-
-        slider = new QSlider(centralwidget);
-        slider->setObjectName("slider");
-        slider->setMinimum(77);
-        slider->setMaximum(200);
-        slider->setSingleStep(5);
-        slider->setPageStep(5);
-        slider->setValue(100);
-        slider->setOrientation(Qt::Vertical);
-        slider->setInvertedAppearance(false);
-
-        gridLayout->addWidget(slider, 0, 4, 2, 1);
 
         plainTextEdit = new QPlainTextEdit(centralwidget);
         plainTextEdit->setObjectName("plainTextEdit");
@@ -218,6 +192,39 @@ public:
         plainTextEdit->setReadOnly(true);
 
         gridLayout->addWidget(plainTextEdit, 1, 2, 1, 1);
+
+        slider = new QSlider(centralwidget);
+        slider->setObjectName("slider");
+        slider->setMinimum(77);
+        slider->setMaximum(200);
+        slider->setSingleStep(5);
+        slider->setPageStep(5);
+        slider->setValue(100);
+        slider->setOrientation(Qt::Vertical);
+        slider->setInvertedAppearance(false);
+
+        gridLayout->addWidget(slider, 0, 5, 1, 1);
+
+        graphicsView = new QGraphicsView(centralwidget);
+        graphicsView->setObjectName("graphicsView");
+        QSizePolicy sizePolicy3(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(graphicsView->sizePolicy().hasHeightForWidth());
+        graphicsView->setSizePolicy(sizePolicy3);
+        graphicsView->setStyleSheet(QString::fromUtf8("QGraphicsView {\n"
+"	border: none;\n"
+"	border-radius: 20px;\n"
+"	padding: 10px;\n"
+"	background-color: #ffffff;\n"
+"}"));
+
+        gridLayout->addWidget(graphicsView, 0, 2, 1, 3);
+
+        checkBox = new QCheckBox(centralwidget);
+        checkBox->setObjectName("checkBox");
+
+        gridLayout->addWidget(checkBox, 1, 4, 1, 2);
 
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
@@ -243,7 +250,8 @@ public:
         btnSetStart->setText(QCoreApplication::translate("MainWindow", "\350\256\276\344\270\272\350\265\267\347\202\271", nullptr));
         btnSetEnd->setText(QCoreApplication::translate("MainWindow", "\350\256\276\344\270\272\347\273\210\347\202\271", nullptr));
         btnShowShortestPath1->setText(QCoreApplication::translate("MainWindow", "\346\230\276\347\244\272\350\265\267\347\202\271\345\210\260\347\273\210\347\202\271\347\232\204\346\234\200\347\237\255\350\267\257\345\276\204", nullptr));
-        btnShowShortestPath2->setText(QCoreApplication::translate("MainWindow", "\346\230\276\347\244\272\346\270\270\351\201\215\351\200\211\345\256\232\346\231\257\347\202\271\347\232\204\346\234\200\347\237\255\350\267\257\345\276\204", nullptr));
+        btnShowShortestPath2->setText(QCoreApplication::translate("MainWindow", "\346\230\276\347\244\272\347\224\261\350\265\267\347\202\271\346\270\270\351\201\215\351\200\211\345\256\232\346\231\257\347\202\271\347\232\204\346\234\200\347\237\255\350\267\257\345\276\204", nullptr));
+        checkBox->setText(QCoreApplication::translate("MainWindow", "TTS", nullptr));
     } // retranslateUi
 
 };
